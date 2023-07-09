@@ -29,8 +29,8 @@ jobs:
 
       - name: Run tests
 #         run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
-#         run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory "TestResults"
-        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
+        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory "TestResults"
+#         run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
 
 #       - name: Publish test results
 #         uses: actions/upload-artifact@v2
@@ -58,7 +58,7 @@ jobs:
         with:
           name: DOTNET Tests            # Name of the check run which will be created
           reporter: dotnet-trx       # Format of test results
-          list-tests: 'all'
+#           list-tests: 'all'
           fail-on-error: 'true'
 #           artifact: test-results
           path: "**/test-results.trx"                # Path to test results (inside artifact .zip)
