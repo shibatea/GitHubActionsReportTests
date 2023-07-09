@@ -28,16 +28,36 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
+#         run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
+        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory "TestResults"
 
-      - name: Publish test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: Test Results
-          path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
+#       - name: Publish test results
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: Test Results
+#           path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
 
-      - name: Upload code coverage report
-        uses: actions/upload-artifact@v2
+#       - name: Upload code coverage report
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: Code Coverage
+#           path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
+
+# this is a working step, it successfully uploads test results artifact
+      - name: Upload Unit Test Results
+        uses: actions/upload-artifact@v3
+        if: always()
         with:
-          name: Code Coverage
-          path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
+            name: test-results              # name of resulting file on github page "test-results.zip"
+            path: ${{ github.workspace }}\TestResults\test-results.trx             # take test results from this path
+
+      - name: Test Reporter
+        uses: dorny/test-reporter@v1.5.0
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: DOTNET Tests            # Name of the check run which will be created
+          reporter: dotnet-trx       # Format of test results
+          list-tests: 'all'
+          fail-on-error: 'true'
+          artifact: test-results
+          path: test-results.trx                # Path to test results (inside artifact .zip)
