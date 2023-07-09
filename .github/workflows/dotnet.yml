@@ -29,7 +29,8 @@ jobs:
 
       - name: Run tests
 #         run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
-        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory "TestResults"
+#         run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory "TestResults"
+        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
 
 #       - name: Publish test results
 #         uses: actions/upload-artifact@v2
@@ -44,12 +45,12 @@ jobs:
 #           path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
 
 # this is a working step, it successfully uploads test results artifact
-      - name: Upload Unit Test Results
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-            name: test-results              # name of resulting file on github page "test-results.zip"
-            path: ${{ github.workspace }}/TestResults/test-results.trx             # take test results from this path
+#       - name: Upload Unit Test Results
+#         uses: actions/upload-artifact@v3
+#         if: always()
+#         with:
+#             name: test-results              # name of resulting file on github page "test-results.zip"
+#             path: ${{ github.workspace }}/TestResults/test-results.trx             # take test results from this path
 
       - name: Test Reporter
         uses: dorny/test-reporter@v1.6.0
@@ -59,5 +60,5 @@ jobs:
           reporter: dotnet-trx       # Format of test results
           list-tests: 'all'
           fail-on-error: 'true'
-          artifact: test-results
-          path: TestResults/test-results.trx                # Path to test results (inside artifact .zip)
+#           artifact: test-results
+          path: "**/test-results.trx"                # Path to test results (inside artifact .zip)
