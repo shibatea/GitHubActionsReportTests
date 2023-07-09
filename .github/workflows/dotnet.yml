@@ -45,12 +45,12 @@ jobs:
 #           path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
 
 # this is a working step, it successfully uploads test results artifact
-#       - name: Upload Unit Test Results
-#         uses: actions/upload-artifact@v3
-#         if: always()
-#         with:
-#             name: test-results              # name of resulting file on github page "test-results.zip"
-#             path: ${{ github.workspace }}/TestResults/test-results.trx             # take test results from this path
+      - name: Upload Unit Test Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+            name: test-results              # name of resulting file on github page "test-results.zip"
+            path: ${{ github.workspace }}/TestResults/test-results.trx             # take test results from this path
 
       - name: Test Reporter
         uses: dorny/test-reporter@v1.6.0
