@@ -34,10 +34,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
-          path: TestResults
+          path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
 
       - name: Upload code coverage report
         uses: actions/upload-artifact@v2
         with:
           name: Code Coverage
-          path: TestResults/$(Agent.OS)/$(Build.Repository.Name)/coverage.cobertura.xml
+          path: GitHubActionsReportTests.Tests/TestResults/*/coverage.cobertura.xml
